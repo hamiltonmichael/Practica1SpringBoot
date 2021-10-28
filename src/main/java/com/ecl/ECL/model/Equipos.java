@@ -52,7 +52,7 @@ public class Equipos {                          //Clase Equipos
         this.nombre = nombre;
         this.pais = pais;
         this.equipoRivalHistoricamente = equipoRivalHistoricamente;
-        this.escudo = escudo;
+        this.escudo = escudo; //
     }
 
     /**
