@@ -1,12 +1,16 @@
 package com.ecl.ECL.model;
 
+import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  *
  */
-
+@Entity
 public class Equipos {                          //Clase Equipos
-    private int id = 0;                           //Atributos de Clase Equipos definidos (private)
-    private static int contadorid = 0;
+    private @Id @GeneratedValue Long id;                           //Atributos de Clase Equipos definidos (private)
     private String nombre;
     private String pais;
     private String equipoRivalHistoricamente;
@@ -16,10 +20,7 @@ public class Equipos {                          //Clase Equipos
      * Constructor por defecto.
      */
 
-    public Equipos() {                          //Constructor por defecto (vacío)
-        contadorid++;
-        this.id = contadorid;
-    }
+    public Equipos() {}                        //Constructor por defecto (vacío)
 
     /**
      * Constructor con parámetros obligatorios.
@@ -30,8 +31,6 @@ public class Equipos {                          //Clase Equipos
      */
 
     public Equipos(String nombre, String pais, String escudo) {     //Constructor con atributos obligatorios (sin rival histórico)
-        contadorid++;
-        this.id = contadorid;
         this.nombre = nombre;
         this.pais = pais;
         this.escudo = escudo;
@@ -47,8 +46,6 @@ public class Equipos {                          //Clase Equipos
      */
 
     public Equipos(String nombre, String pais, String equipoRivalHistoricamente, String escudo) {       //Constructor con todos los atributos (incluye rival histórico)
-        contadorid++;
-        this.id = contadorid;
         this.nombre = nombre;
         this.pais = pais;
         this.equipoRivalHistoricamente = equipoRivalHistoricamente;
@@ -60,8 +57,8 @@ public class Equipos {                          //Clase Equipos
      *
      * @return id
      */
-    public int getId() {
-        return id;
+    public Long getId() {
+        return this.id;
     }
 
     /**
@@ -70,7 +67,7 @@ public class Equipos {                          //Clase Equipos
      * @param id
      * @return void
      */
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -80,7 +77,7 @@ public class Equipos {                          //Clase Equipos
      * @return nombre
      */
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     /**
@@ -99,7 +96,7 @@ public class Equipos {                          //Clase Equipos
      * @return pais
      */
     public String getPais() {
-        return pais;
+        return this.pais;
     }
 
     /**
@@ -118,7 +115,7 @@ public class Equipos {                          //Clase Equipos
      * @return equipoRivalHistoricamente
      */
     public String getEquipoRivalHistoricamente() {
-        return equipoRivalHistoricamente;
+        return this.equipoRivalHistoricamente;
     }
 
     /**
@@ -137,7 +134,7 @@ public class Equipos {                          //Clase Equipos
      * @return escudo
      */
     public String getEscudo() {
-        return escudo;
+        return this.escudo;
     }
 
     /**
@@ -150,4 +147,30 @@ public class Equipos {                          //Clase Equipos
         this.escudo = escudo;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(this==obj)
+            return true;
+        if(!(obj instanceof Equipos))
+            return false;
+        Equipos equipos = (Equipos) obj;
+        return Objects.equals(this.id, equipos.id) && Objects.equals(this.nombre, equipos.nombre)
+                && Objects.equals(this.pais, equipos.pais) && Objects.equals(this.equipoRivalHistoricamente,equipos.equipoRivalHistoricamente) && Objects.equals(this.escudo, equipos.escudo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id,this.nombre,this.pais,this.equipoRivalHistoricamente,this.escudo);
+    }
+
+    @Override
+    public String toString() {
+        return "Equipos{" +
+                "id=" + this.id +
+                ", nombre='" + this.nombre + '\'' +
+                ", pais='" + this.pais + '\'' +
+                ", equipoRivalHistoricamente='" + this.equipoRivalHistoricamente + '\'' +
+                ", escudo='" + this.escudo + '\'' +
+                '}';
+    }
 }
