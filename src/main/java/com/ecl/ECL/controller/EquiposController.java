@@ -55,7 +55,7 @@ public class EquiposController {
                 });
 
     }
-
+    //Delete Item (in this case team)
     @DeleteMapping("/equipos/{id}")
     void deleteEquipos(@PathVariable Long id){
         repository.deleteById(id);
