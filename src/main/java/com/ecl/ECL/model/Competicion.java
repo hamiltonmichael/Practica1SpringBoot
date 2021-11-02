@@ -13,8 +13,7 @@ public class Competicion {
 
     public Competicion() {}
 
-    public Competicion(long idCompeticion, String nameCompeticion) {
-        this.idCompeticion = idCompeticion;
+    public Competicion(String nameCompeticion) {
         this.nameCompeticion = nameCompeticion;
     }
 
