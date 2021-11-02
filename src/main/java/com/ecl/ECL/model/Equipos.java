@@ -6,7 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- *
+ * Clase Equipos, en la que se guardan los atributos especificos de cada equipo,
+ * incluyendo el numero identificador de cada uno de ellos.
  */
 @Entity
 public class Equipos {                          //Clase Equipos
@@ -23,14 +24,14 @@ public class Equipos {                          //Clase Equipos
     public Equipos() {}                        //Constructor por defecto (vacío)
 
     /**
-     * Constructor con parámetros obligatorios.
+     * Constructor con parámetros obligatorios (sin rival historico).
      *
      * @param nombre
      * @param pais
      * @param escudo
      */
 
-    public Equipos(String nombre, String pais, String escudo) {     //Constructor con atributos obligatorios (sin rival histórico)
+    public Equipos(String nombre, String pais, String escudo) {
         this.nombre = nombre;
         this.pais = pais;
         this.escudo = escudo;
@@ -147,6 +148,7 @@ public class Equipos {                          //Clase Equipos
         this.escudo = escudo;
     }
 
+    /*
     @Override
     public boolean equals(Object obj) {
         if(this==obj)
@@ -162,7 +164,12 @@ public class Equipos {                          //Clase Equipos
     public int hashCode() {
         return Objects.hash(this.id,this.nombre,this.pais,this.equipoRivalHistoricamente,this.escudo);
     }
+     */
 
+    /**
+     * Este método muestra los datos (id, nombre, pais, equipo rival y escudo) de un equipo determinado.
+     * @return String
+     */
     @Override
     public String toString() {
         return "Equipos{" +

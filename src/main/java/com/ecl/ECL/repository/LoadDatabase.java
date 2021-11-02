@@ -4,20 +4,24 @@ import com.ecl.ECL.model.Competicion;
 import com.ecl.ECL.model.Equipos;
 import com.ecl.ECL.model.Ganadores;
 import com.ecl.ECL.model.PaisesAdmitidos;
-import org.hibernate.id.SequenceIdentityGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Clase LoadDatabase, en la que permite añadir todos los datos necesarios y deseados para
+ * cada equipo, países admitidos, ganadores y competición antes de inicializar el programa.
+ */
 @Configuration
 public class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
-    CommandLineRunner initDatabase(EquiposRepository equiposRepository, GanadoresRepository ganadoresRepository, CompeticionRepository competicionRepository, PaisesRepository paisesRepository) {
+    CommandLineRunner initDatabase(EquiposRepository equiposRepository, GanadoresRepository ganadoresRepository,
+                                   CompeticionRepository competicionRepository, PaisesRepository paisesRepository) {
 
         return args -> {
 
@@ -26,14 +30,14 @@ public class LoadDatabase {
             log.info("Preloading " + equiposRepository.save(new Equipos("Munich","Alemania","Borussia","TBD")));
             log.info("Preloading " + equiposRepository.save(new Equipos("Borussia", "Alemania","Munich","TBD")));
 
-            Long BarcelonaId = EquiposRepository.buscarEquipo("Barcelona").get().getId();
-            Long MadridId = EquiposRepository.buscarEquipo("Madrid").get().getId();
-            Long MunichId = EquiposRepository.buscarEquipo("Munich").get().getId();
-            Long BorussiaId = EquiposRepository.buscarEquipo("Borussia").get().getId();
+            Long BarcelonaId = equiposRepository.buscarEquipo("Barcelona").get().getId();
+            Long MadridId = equiposRepository.buscarEquipo("Madrid").get().getId();
+            Long MunichId = equiposRepository.buscarEquipo("Munich").get().getId();
+            Long BorussiaId = equiposRepository.buscarEquipo("Borussia").get().getId();
 
             log.info("Preloading " + competicionRepository.save(new Competicion("Europa Champions League")));
 
-            Long CompId = CompeticionRepository.buscarCompeticion("Europa Champions League").get().getIdCompeticion();
+            Long CompId = competicionRepository.buscarCompeticion("Europa Champions League").get().getIdCompeticion();
 
             log.info("Preloading " + ganadoresRepository.save(new Ganadores(CompId, "1955/1956", MadridId)));
             log.info("Preloading " + ganadoresRepository.save(new Ganadores(CompId, "1956/1957", MadridId)));
@@ -94,6 +98,8 @@ public class LoadDatabase {
             log.info("Preloading " + paisesRepository.save(new PaisesAdmitidos(CompId,"Finlandia")));
             log.info("Preloading " + paisesRepository.save(new PaisesAdmitidos(CompId,"Kazajistan")));
             log.info("Preloading " + paisesRepository.save(new PaisesAdmitidos(CompId,"Azerbaiyan")));
+
+
         };
     }
 }

@@ -5,65 +5,88 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import com.ecl.ECL.model.Equipos;
 import com.ecl.ECL.repository.EquiposRepository;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Clase EquiposController, en la que permite escoger la acción que se desea realizar relacionado con
+ * los equipos que forman cada competición existente. Permite mostrar los equipos, añadir equipos,
+ * modificar equipos ya existente y eliminar equipos existentes.
+ */
 @RestController
 public class EquiposController {
 
-    private final EquiposRepository repository;
+    private final EquiposRepository equiposRepository;
 
-    public EquiposController(EquiposRepository repository) {
-        this.repository = repository;
+    /**
+     * Constructor de la clase EquiposController
+     * @param equiposRepository
+     */
+    public EquiposController(EquiposRepository equiposRepository) {
+        this.equiposRepository = equiposRepository;
     }
 
-    //Agregate root
-    //tag::get-aggregate-root[]
+    /**
+     * Este método muestra los equipos de una competición.
+     */
     @GetMapping("/equipos")
     List<Equipos> all(){
-        return repository.findAll();
+        return equiposRepository.findAll();
     }
-    //end::get-aggregate-root[]
 
+    /**
+     * Este método permite la creación de un equipo que no exista todavía.
+     * @param newEquipos
+     */
     @PostMapping("/equipos")
     Equipos newEquipos(@RequestBody Equipos newEquipos){
-        if (EquiposRepository.buscarEquipo(newEquipos.getNombre()).isPresent()){
+        if (equiposRepository.buscarEquipo(newEquipos.getNombre()).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        return repository.save(newEquipos);
+        return equiposRepository.save(newEquipos);
     }
 
-    //Single item
-
+    /**
+     * Este método permite mostrar los datos de un equipo determinado.
+     * @param id
+     */
     @GetMapping("/equipos/{id}")
     Equipos one(@PathVariable Long id){
-        return repository.findById(id)
+        return equiposRepository.findById(id)
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    /**
+     * Este método permite modificar los parámetros de un equipo que ya existe.
+     * @param newEquipos
+     * @param id
+     */
     @PutMapping("/equipos/{id}")
     Equipos replaceEquipos(@RequestBody Equipos newEquipos, @PathVariable Long id){
-        if (EquiposRepository.buscarEquipo(newEquipos.getNombre()).isPresent()){
+        if (equiposRepository.buscarEquipo(newEquipos.getNombre()).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        return repository.findById(id)
+        return equiposRepository.findById(id)
                 .map(equipos -> {
                     equipos.setNombre(newEquipos.getNombre());
                     equipos.setPais(newEquipos.getPais());
                     equipos.setEquipoRivalHistoricamente(newEquipos.getEquipoRivalHistoricamente());
                     equipos.setEscudo(newEquipos.getEscudo());
-                    return repository.save(equipos);
+                    return equiposRepository.save(equipos);
                 })
                 .orElseGet(()->{
                     newEquipos.setId(id);
-                    return repository.save(newEquipos);
+                    return equiposRepository.save(newEquipos);
                 });
 
     }
-    //Delete Item (in this case team)
+
+    /**
+     * Este método permite eliminar un equipo existente.
+     * @param id
+     */
     @DeleteMapping("/equipos/{id}")
     void deleteEquipos(@PathVariable Long id){
-        repository.deleteById(id);
+        equiposRepository.deleteById(id);
     }
 }
