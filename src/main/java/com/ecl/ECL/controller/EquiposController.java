@@ -28,6 +28,9 @@ public class EquiposController {
 
     @PostMapping("/equipos")
     Equipos newEquipos(@RequestBody Equipos newEquipos){
+        if (EquiposRepository.buscarEquipo(newEquipos.getNombre()).isPresent()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         return repository.save(newEquipos);
     }
 
@@ -41,6 +44,9 @@ public class EquiposController {
 
     @PutMapping("/equipos/{id}")
     Equipos replaceEquipos(@RequestBody Equipos newEquipos, @PathVariable Long id){
+        if (EquiposRepository.buscarEquipo(newEquipos.getNombre()).isPresent()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         return repository.findById(id)
                 .map(equipos -> {
                     equipos.setNombre(newEquipos.getNombre());
