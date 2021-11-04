@@ -1,3 +1,4 @@
+
 package com.ecl.ECL.controller;
 
 import org.springframework.http.HttpStatus;
@@ -8,13 +9,14 @@ import com.ecl.ECL.repository.EquiposRepository;
 
 import java.util.List;
 
+
 /**
  * Clase EquiposController, en la que permite escoger la acción que se desea realizar relacionado con
  * los equipos que forman cada competición existente. Permite mostrar los equipos, añadir equipos,
  * modificar equipos ya existente y eliminar equipos existentes.
  */
 @RestController
-public class EquiposController {
+class EquiposController {
 
     private final EquiposRepository equiposRepository;
 
@@ -22,7 +24,7 @@ public class EquiposController {
      * Constructor de la clase EquiposController
      * @param equiposRepository
      */
-    public EquiposController(EquiposRepository equiposRepository) {
+    EquiposController(EquiposRepository equiposRepository) {
         this.equiposRepository = equiposRepository;
     }
 
@@ -40,9 +42,11 @@ public class EquiposController {
      */
     @PostMapping("/equipos")
     Equipos newEquipos(@RequestBody Equipos newEquipos){
-        if (equiposRepository.buscarEquipo(newEquipos.getNombre()).isPresent()){
+
+       if (equiposRepository.buscarEquipo(newEquipos.getNombre()).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+
         return equiposRepository.save(newEquipos);
     }
 
@@ -63,9 +67,11 @@ public class EquiposController {
      */
     @PutMapping("/equipos/{id}")
     Equipos replaceEquipos(@RequestBody Equipos newEquipos, @PathVariable Long id){
+
         if (equiposRepository.buscarEquipo(newEquipos.getNombre()).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+
         return equiposRepository.findById(id)
                 .map(equipos -> {
                     equipos.setNombre(newEquipos.getNombre());
@@ -82,7 +88,7 @@ public class EquiposController {
     }
 
     /**
-     * Este método permite eliminar un equipo existente.
+     * Este método permite eliminar un equipo
      * @param id
      */
     @DeleteMapping("/equipos/{id}")
@@ -90,3 +96,4 @@ public class EquiposController {
         equiposRepository.deleteById(id);
     }
 }
+

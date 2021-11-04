@@ -20,8 +20,10 @@ public class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
-    CommandLineRunner initDatabase(EquiposRepository equiposRepository, GanadoresRepository ganadoresRepository,
-                                   CompeticionRepository competicionRepository, PaisesRepository paisesRepository) {
+    CommandLineRunner initDatabase(EquiposRepository equiposRepository,
+                                   GanadoresRepository ganadoresRepository,
+                                   CompeticionRepository competicionRepository,
+                                   PaisesRepository paisesRepository) {
 
         return args -> {
 
