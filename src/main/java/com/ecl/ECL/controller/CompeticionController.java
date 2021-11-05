@@ -1,4 +1,3 @@
-
 package com.ecl.ECL.controller;
 
 
@@ -15,8 +14,6 @@ public class CompeticionController {
 
     private final CompeticionRepository competicionRepository;
 
-
-
     /**
      * Constructor de la clase CompeticionController
      * @param competicionRepository
@@ -24,7 +21,6 @@ public class CompeticionController {
     public CompeticionController(CompeticionRepository competicionRepository) {
         this.competicionRepository = competicionRepository;
     }
-
 
     /**
      * Este método muestra las competiciones existentes.
@@ -34,14 +30,13 @@ public class CompeticionController {
         return competicionRepository.findAll();
     }
 
-
     /**
      * Este método permite la creación de una competición que no exista todavía.
      * @param newCompeticion
      */
     @PostMapping("/competicion")
     Competicion newCompeticion(@RequestBody Competicion newCompeticion){
-        if (competicionRepository.buscarCompeticion(newCompeticion.getNombreCompeticion()).isPresent()){
+        if (competicionRepository.findByNombre(newCompeticion.getNombreCompeticion()).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         return competicionRepository.save(newCompeticion);
@@ -64,7 +59,7 @@ public class CompeticionController {
      */
     @PutMapping("/competicion/{id}")
     Competicion replaceCompeticion(@RequestBody Competicion newCompeticion, @PathVariable Long id){
-        if (competicionRepository.buscarCompeticion(newCompeticion.getNombreCompeticion()).isPresent()){
+        if (competicionRepository.findByNombre(newCompeticion.getNombreCompeticion()).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         return competicionRepository.findById(id)
@@ -89,3 +84,5 @@ public class CompeticionController {
     }
 
 }
+
+

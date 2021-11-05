@@ -32,6 +32,7 @@ public class LoadDatabase {
             log.info("Preloading " + equiposRepository.save(new Equipos("Munich","Alemania","Borussia","TBD")));
             log.info("Preloading " + equiposRepository.save(new Equipos("Borussia", "Alemania","Munich","TBD")));
 
+
             Long BarcelonaId = equiposRepository.buscarEquipo("Barcelona").get().getId();
             Long MadridId = equiposRepository.buscarEquipo("Madrid").get().getId();
             Long MunichId = equiposRepository.buscarEquipo("Munich").get().getId();

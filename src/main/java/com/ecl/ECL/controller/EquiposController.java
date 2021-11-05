@@ -43,9 +43,12 @@ class EquiposController {
     @PostMapping("/equipos")
     Equipos newEquipos(@RequestBody Equipos newEquipos){
 
-       if (equiposRepository.buscarEquipo(newEquipos.getNombre()).isPresent()){
+
+       if (equiposRepository.findByNombre(newEquipos.getNombre()).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+
+
 
         return equiposRepository.save(newEquipos);
     }
@@ -61,6 +64,16 @@ class EquiposController {
     }
 
     /**
+     * Este método permite mostrar el país de un equipo determinado
+     * @param id
+     */
+    @GetMapping("/equipos/{id}/pais")
+    String ep(@PathVariable String id){
+        return equiposRepository.buscarPaisByNombre(id)
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    /**
      * Este método permite modificar los parámetros de un equipo que ya existe.
      * @param newEquipos
      * @param id
@@ -68,7 +81,7 @@ class EquiposController {
     @PutMapping("/equipos/{id}")
     Equipos replaceEquipos(@RequestBody Equipos newEquipos, @PathVariable Long id){
 
-        if (equiposRepository.buscarEquipo(newEquipos.getNombre()).isPresent()){
+        if (equiposRepository.findByNombre(newEquipos.getNombre()).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
